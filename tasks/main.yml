@@ -22,22 +22,22 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - httpd
-    - bzip2
-    - mod_php71u
-    - php71u-cli
-    - php71u-gd
-    - php71u-json
-    - php71u-mbstring
-    - php71u-mysqlnd
-    - php71u-pgsql
-    - php71u-intl
-    - php71u-mcrypt
-    - php71u-gmp
-    - php71u-pecl-memcached
-    - php71u-pecl-redis
-    - php71u-pecl-apcu
-    - php71u-pecl-imagick
+  - httpd
+  - bzip2
+  - mod_php71u
+  - php71u-cli
+  - php71u-gd
+  - php71u-json
+  - php71u-mbstring
+  - php71u-mysqlnd
+  - php71u-pgsql
+  - php71u-intl
+  - php71u-mcrypt
+  - php71u-gmp
+  - php71u-pecl-memcached
+  - php71u-pecl-redis
+  - php71u-pecl-apcu
+  - php71u-pecl-imagick
 
 - name: check nextcloud installed
   stat:
