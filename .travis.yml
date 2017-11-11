@@ -1,6 +1,8 @@
 ---
 sudo: required
 
+language: generic
+
 env:
 - distribution: centos
   version: 7
