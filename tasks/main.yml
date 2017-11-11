@@ -1,2 +1,92 @@
 ---
 # tasks file for nextcloud
+- name: install epel-release
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    state: present
+
+- name: install ius (centos)
+  yum:
+    name: https://centos7.iuscommunity.org/ius-release.rpm
+    state: present
+  when: ansible_distribution == "CentOS"
+
+- name: install ius (redhat)
+  yum:
+    name: https://rhel7.iuscommunity.org/ius-release.rpm
+    state: present
+  when: ansible_distribution == "RedHat"
+
+- name: install needed packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - httpd
+    - bzip2
+    - mod_php71u
+    - php71u-cli
+    - php71u-gd
+    - php71u-json
+    - php71u-mbstring
+    - php71u-mysqlnd
+    - php71u-pgsql
+    - php71u-intl
+    - php71u-mcrypt
+    - php71u-gmp
+    - php71u-pecl-memcached
+    - php71u-pecl-redis
+    - php71u-pecl-apcu
+    - php71u-pecl-imagick
+
+- name: check nextcloud installed
+  stat:
+    path: /var/www/html/occ
+  register: nextcloud_occ
+
+- name: unarchive nextcloud package
+  unarchive:
+    src: "{{ nextcloud_package_url }}"
+    dest: "{{ nextcloud_package_destination }}"
+    remote_src: yes
+  when: nextcloud_occ.stat.exists == False
+
+- name: copy nextcloud files
+  shell: "cp -r {{ nextcloud_package_destination }}/nextcloud/* /var/www/html/"
+  when: nextcloud_occ.stat.exists == False
+
+#- name: set nextcloud file permissions
+#  shell: "chown -R apache:apache /var/www/html/"
+#  when: nextcloud_occ.stat.exists == False
+
+- name: set nextcloud file permissions
+  file:
+    dest: /var/www/html
+    owner: apache
+    group: apache
+    recurse: yes
+
+- name: remove package files
+  file:
+    state: absent
+    path: "{{ nextcloud_package_destination }}/nextcloud/"
+
+- name: seboolean httpd_unified
+  seboolean:
+    name: httpd_unified
+    state: yes
+    persistent: yes
+
+- name: enable and start httpd
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: firewall http allow
+  firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+    immediate: yes
+  when: nextcloud_use_firewalld
