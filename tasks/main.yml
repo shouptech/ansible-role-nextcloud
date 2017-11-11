@@ -38,6 +38,7 @@
   - php71u-pecl-redis
   - php71u-pecl-apcu
   - php71u-pecl-imagick
+  - rsync
 
 - name: check nextcloud installed
   stat:
@@ -52,7 +53,7 @@
   when: nextcloud_occ.stat.exists == False
 
 - name: copy nextcloud files
-  shell: "cp -r {{ nextcloud_package_destination }}/nextcloud/* /var/www/html/"
+  shell: "rsync -a {{ nextcloud_package_destination }}/nextcloud/ /var/www/html/"
   when: nextcloud_occ.stat.exists == False
 
 #- name: set nextcloud file permissions
