@@ -71,11 +71,17 @@
     state: absent
     path: "{{ nextcloud_package_destination }}/nextcloud/"
 
+- name: selinux status
+  command: /usr/sbin/getenforce
+  register: selinux_status
+  changed_when: false
+
 - name: seboolean httpd_unified
   seboolean:
     name: httpd_unified
     state: yes
     persistent: yes
+  when: selinux_status.stdout != "Disabled"
 
 - name: enable and start httpd
   service:
