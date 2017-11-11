@@ -12,7 +12,7 @@ Role Variables
 --------------
 
 | name | default | comments |
-|======|=========|==========|
+|------|---------|----------|
 | nextcloud_package_url | `https://download.nextcloud.com/server/releases/nextcloud-12.0.3.tar.bz2` | URL to download the nextcloud package from |
 | nextcloud_package_destination | `"{{ ansible_env.HOME }}"` | This is a temporary location to download the package to. Generally doesn't need to be tweaked. |
 | nextcloud_use_firewalld | yes | Whether or not `firewalld` is in use on the remote |
