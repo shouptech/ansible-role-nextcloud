@@ -1,5 +1,5 @@
 ---
 # defaults file for nextcloud
-nextcloud_package_url: https://download.nextcloud.com/server/releases/nextcloud-12.0.3.tar.bz2
+nextcloud_package_url: https://download.nextcloud.com/server/releases/nextcloud-13.0.2.tar.bz2
 nextcloud_package_destination: "{{ ansible_env.HOME }}"
 nextcloud_use_firewalld: true
