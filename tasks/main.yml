@@ -38,6 +38,8 @@
   - php71u-pecl-redis
   - php71u-pecl-apcu
   - php71u-pecl-imagick
+  - php71u-xml
+  - php71u-process
   - rsync
 
 - name: check nextcloud installed
